@@ -1,0 +1,222 @@
+
+//* paste this script into outlook console to extract locaitons for the day id seems to change, maybe by day?
+function extractLocations() {
+    const locations = [];
+    // Starting point for the appointment elements (the parent div might change, update as needed)
+    const baseSelector = '#id__517 > div > div.MFHYk > div.I7zP6 > div:nth-child(';
+    
+    // Dynamically find the number of appointments based on the observed structure
+    // Adjust the query to match the actual structure, if different
+    const appointmentCount = document.querySelectorAll('#id__517 > div > div.MFHYk > div.I7zP6 > div').length;
+
+    for (let i = 0; i <= appointmentCount; i++) {
+        // Construct the selector for the location based on the pattern you identified
+        const locationSelector = `${baseSelector}${i}) > div > div.root-566.LqGse.content-569.lr6vS > div > div:nth-child(2), ${baseSelector}${i}) > div > div.root-566.LqGse.content-569.lr6vS > div > div.Cns89.MrsVW.NxRtB`;
+
+        // Attempt to select the location element
+        const locationElement = document.querySelector(locationSelector);
+        
+        // If a location element is found, add its text content to the array
+        if (locationElement) {
+            locations.push(locationElement.textContent.trim());
+        }
+    }
+    
+    // Log the locations to the console
+    console.log(locations.join('\n'));
+}
+
+// Call the function to execute
+extractLocations();
+
+
+// THE ID CAN BE REMOVED IF IT CHANGES MAKE SURE TO NOT KEEP THE ID. TRY REMOVING IT AFTER 
+function extractLocations() {
+    const locations = [];
+    // Select all potential appointment containers based on a part of the selector that appears consistent
+    const appointmentContainers = document.querySelectorAll('#id__81 > div > div.MFHYk.dXXJd > div.I7zP6 > div');
+
+    appointmentContainers.forEach(container => {
+        // Attempt to find the location element within this container
+        // Adjust this selector to more accurately target the location within the container
+        const locationElement = container.querySelector('div[class*="content-"] > div > div:nth-child(2), div[class*="content-"] div.Cns89.MrsVW.NxRtB');
+        
+        // If a location element is found, add its text content to the array
+        if (locationElement && locationElement.textContent.trim() !== '') {
+            locations.push(locationElement.textContent.trim());
+        }
+    });
+    
+    // Log the extracted locations
+    if(locations.length > 0) {
+        console.log(locations.join('\n'));
+    } else {
+        console.log("No locations found.");
+    }
+}
+
+// Execute the function to extract locations
+extractLocations();
+
+
+// Version 3.0 with whole appointment data
+function extractAppointments() {
+    const appointments = [];
+    // Assuming a consistent starting path to reach the appointment containers
+    const appointmentContainers = document.querySelectorAll('div > div.MFHYk.dXXJd > div.I7zP6 > div');
+
+    appointmentContainers.forEach((container, index) => {
+        // Given the varied class names for titles and locations, target potential title and location elements more generically
+        // This approach assumes the title and location are within div elements directly following the div with class "root-XXX LqGse content-XXX lr6vS"
+        let titleElement = container.querySelector('div > div[class*="root-"][class*="LqGse"][class*="content-"] > div > div.X2DO9, div > div[class*="root-"][class*="LqGse"][class*="content-"] > div > div.NGLVH');
+        let locationElement = container.querySelector('div > div[class*="root-"][class*="LqGse"][class*="content-"] > div > div:nth-child(2), div > div[class*="root-"][class*="LqGse"][class*="content-"] > div > div.Cns89.MrsVW.NxRtB');
+
+        // Validate and push title-location pair
+        if (titleElement && locationElement && titleElement.textContent.trim() !== '' && locationElement.textContent.trim() !== '') {
+            appointments.push(`Appointment ${index + 1}: ${titleElement.textContent.trim()} - ${locationElement.textContent.trim()}`);
+        }
+    });
+
+    // Log extracted appointment details
+    if (appointments.length > 0) {
+        console.log(appointments.join('\n'));
+    } else {
+        console.log("No appointments found.");
+    }
+}
+
+extractAppointments();
+
+
+not working:
+Appointment 1: CSTK0026748/[SO217270] SOTE/JTA-PROJEKTI/Käenkuja 1B/3kpl - Käenkuja 1; B
+Appointment 2: CSTK0033636/[SO220261] SOTE/JTA-PROJEKTI/Väinämöisenkatu 27/2kpl - Väinämöisenkatu 27
+Appointment 3: CSTK0050790 - [SO229076] KASKO/PUSKURI/Olavinlinnantie 1 B - Olavinlinnantie 1 B
+Appointment 4: CSTK0030788/[SO218293] SOTE/JTA-PROJEKTI/Hiomotie 6/2kpl - Hiomotie 6
+Appointment 5: CSTK0047770/[SO226886] PROJEKTI/SOTEPE/Arcturuksenkatu 6/ 2 kpl - Arcturuksenkatu 6
+Appointment 6: CSTK0026528/[SO217191] SOTE/JTA-PROJEKTI/Arcturuksenkatu 6/1kpl - Arcturuksenkatu 6
+Appointment 7: CSTK0048886/[SO228043] KASKO/PUSKURI/Runokylänkatu 2, 1kpl L14 - Runokylänkatu 2
+Appointment 8: CSTK0051109 [SO229793] STARA/Hammarskjöldintie 1/ 1kpl P15v ja 2kpl näyttöä OULUNKYLÄN VARASTOSTA - Hammarskjöldintie 1
+Appointment 9: CSTK0047907 [SO226974] PALKE Rollis/Kouluravintola keittiö/Mikkolankuja 6 A; 00680 - Mikkolankuja 6 A
+Appointment 10: CSTK0047886 [SO226953] PALKE Rollis/PUUSKANIEMENTIE 21, 00850 - PUUSKANIEMENTIE 21
+Appointment 11: CSTK0050901 - [SO229443] KUVA/PUSKURI/Aleksanterinkatu 16-18 - Aleksanterinkatu 16-18
+Appointment 12: CSTK0049722 [SO228768] SOTEPE/PUSKURI/Kaupintie 11/ 1kpl L14 - Kaupintie 11
+Appointment 13: CSTK0047906 [SO226971] PALKE Rollis/Siltakyläntie 9; 00740 - Siltakyläntie 9
+Appointment 14: CSTK0048774/[SO228000] SOTEPE/PUSKURI/Hopeatie 6, 1kpl L14 - Hopeatie 6
+Appointment 15: CSTK0050492 [SO228981] KUVA/PUSKURI/Rajasaarenpenger 12/ 1kpl L14 - Rajasaarenpenger 12
+Appointment 16: CSTK0049720 [SO228766] SOTEPE/PUSKURI/Toinen Linja 4A - KRS 08/ 1kpl L14 - Toinen Linja 4A KRS 08
+Appointment 17: CSTK0050913 - [SO229447] KASKO/PUSKURI/Työpajankatu 8 - Työpajankatu 8
+Appointment 18: CSTK0048934 [SO228075] KASKO/PUSKURI/Työpajankatu 8, 1kpl L14 - Työpajankatu 8
+Appointment 19: CSTK0050835 [SO229096] KUVA/PUSKURI/Konepajankuja 3/PRIO tekninen - Konepajankuja 3
+Appointment 20: CSTK0050791 - [SO229077] KUVA/PUSKURI/Aleksanterinkatu 16-18 - Aleksanterinkatu 16-18
+Appointment 21: CSTK0050787 [SO229071] KUVA/PUSKURI/Konepajankuja 1/PRIO tekninen - Konepajankuja 1
+Appointment 22: CSTK0050882 [SO229435] KASKO/PUSKURI/Juhana-herttuan tie 13 b/PRIO tekninen - Juhana-herttuan tie 13 b
+Appointment 23: CSTK0048935 [SO228077] KASKO/PUSKURI/Vilppulantie 14, 1kpl L14 - Vilppulantie 14
+
+working:
+Appointment 1: CSTK0029715/[SO217885] SOTE/JTA-PROJEKTI/Myllymatkantie 4/9kpl - Myllymatkantie 4
+Appointment 2: CSTK0026541 - [SO217193] SOTE/JTA-PROJEKTI/Harjantekijäntie 2 - Harjantekijäntie 2
+Appointment 3: CSTK0045890 - [SO226329] SOTEPE/PROJEKTI/Roihuvuorentie 2 - Roihuvuorentie 2
+Appointment 4: CSTK0048889 [SO228048] KASKO/PUSKURI/Teollisuuskatu 23, 1kpl L14 - Teollisuuskatu 23
+Appointment 6: CSTK0028699 - [SO217473] SOTE/JTA-PROJEKTI/Viipurinkatu 21, 00510, Helsinki/1kpl - Viipurinkatu 21
+Appointment 7: CSTK0033373/[SO219715] SOTE/JTA-PROJEKTI/Svinhufvudinkuja 3/1kp - Svinhufvudinkuja 3
+Appointment 8: CSTK0049712 [SO228762] SOTEPE/PUSKURI/Lääkärinkatu 8/ 1kpl L14 - Lääkärinkatu 8
+Appointment 9: CSTK0050865 - [SO229276] KANSLIA/PUSKURI/Pohjoisesplanadi 11-13 - Pohjoisesplanadi 11-13
+Appointment 10: CSTK0047895 [SO226955] PALKE Rollis/STRÖMSINLAHDENPOLKU 4; 00820 - STRÖMSINLAHDENPOLKU 4
+Appointment 11: CSTK0050715 [SO229052] KANSLIA/PUSKURI/Rusthollarintie 6 - Rusthollarintie 6
+Appointment 12: CSTK0047885 [SO226951] PALKE Rollis/Paloheinäntie 40 B - Paloheinäntie 40 B
+Appointment 13: CSTK0049723 [SO228769] SOTEPE/PUSKURI/Sturenkatu 8/ 1kpl L14 PRIO Tekninen - Sturenkatu 8
+Appointment 14: CSTK0050900 - [SO229442] KUVA/PUSKURI/Annankatu 30 - Annankatu 30
+Appointment 15: CSTK0047896 [SO226957] PALKE Rollis/PUNAKIVENTIE 4; 00980 - PUNAKIVENTIE 4
+Appointment 16: CSTK0050777 - [SO229069] DHOY/PUSKURI/Työpajankatu 8/PRIO uusi, aloitus 8.4. - Työpajankatu 8
+Appointment 17: CSTK0049711 [SO228761] SOTEPE/PUSKURI/Eiranranta 1, 00130 Helsingfors/ 1kpl L14 PRIO Tekninen - Eiranranta 1
+Appointment 18: CSTK0050491 [SO228980] KUVA/PUSKURI/Aleksanterinkatu 16-18/1kpl L14 - Aleksanterinkatu 16-18
+Appointment 19: CSTK0047905 [SO226968] PALKE Rollis/LAPINLAHDENKATU 10; 00180 - LAPINLAHDENKATU 10
+Appointment 20: CSTK0050883 [SO229436] KASKO/PUSKURI/Ilmattarentie 32/PRIO tekninen - Ilmattarentie 32
+Appointment 21: CSTK0026502/[SO217166] SOTE/JTA-PROJEKTI/Konalantie 47/1kpl - Konalantie 47
+Appointment 22: STK0047480 [SO226832] PALKE Rollis/Pajalahdentie 10 - Pajalahdentie 10
+Appointment 23: CSTK0050792 [SO229079] KUVA/PUSKURI/Pohjavedenkatu 5/PRIO uusi - Pohjavedenkatu 5
+
+
+Its breaking because in appointment 16 address there is "-" inside it so its getting formatted incorrectly so manually fix this kind of errors.A
+
+//3.1 extract location 
+function extractAppointments() {
+    const appointments = [];
+    // Select base containers for appointments
+    const appointmentContainers = document.querySelectorAll('div > div.MFHYk > div.I7zP6 > div');
+
+    appointmentContainers.forEach((container, index) => {
+        // Attempt to find title and location based on structure and class hints
+        let titleElement = container.querySelector('div[class*="root-"][class*="LqGse"][class*="content-"] > div > div.X2DO9, div > div[class*="root-"][class*="LqGse"][class*="content-"] > div > div.NGLVH');
+        // Use nth-child(2) as a more general approach to find the location element
+        let locationElement = container.querySelector('div[class*="root-"][class*="LqGse"][class*="content-"] > div > div:nth-child(2)');
+
+        // Validate and push title-location pair
+        if (titleElement && locationElement && titleElement.textContent.trim() !== '' && locationElement.textContent.trim() !== '') {
+            appointments.push(`Appointment ${index + 1}: ${titleElement.textContent.trim()} - ${locationElement.textContent.trim()}`);
+        }
+    });
+
+    // Log extracted appointment details
+    if (appointments.length > 0) {
+        console.log(appointments.join('\n'));
+    } else {
+        console.log("No appointments found.");
+    }
+}
+
+extractAppointments();
+
+
+// 3.2 for object json extraction should work with all days (doesnt pick every location but most)
+function extractAppointments() {
+    const appointments = [];
+    // Use a more generalized selector that captures the container of appointments.
+    const appointmentContainers = document.querySelectorAll('[role="button"][aria-label*="event"]');
+
+    appointmentContainers.forEach(container => {
+        const titleElement = container.querySelector('[class*="X2DO9"], [class*="NGLVH"]');
+        const locationElement = container.querySelector('[class*="Cns89"]');
+        const title = titleElement ? titleElement.textContent.trim() : '';
+        const location = locationElement ? locationElement.textContent.trim() : '';
+        // Extract the time directly from the aria-label attribute.
+        const timeMatch = container.getAttribute('aria-label').match(/\d{1,2}:\d{2} (AM|PM) to \d{1,2}:\d{2} (AM|PM)/);
+        const time = timeMatch ? timeMatch[0] : '';
+
+        appointments.push({ title, location, time });
+    });
+
+    console.log(appointments);
+    return appointments;
+}
+
+extractAppointments();
+
+// 3.3 for object json extraction but with new extraction methods not sure if works well
+function extractAppointments() {
+    const appointments = [];
+    const appointmentContainers = document.querySelectorAll('[role="button"][aria-label*="event"]');
+
+    appointmentContainers.forEach(container => {
+        const ariaLabel = container.getAttribute('aria-label');
+        const titleElement = container.querySelector('.X2DO9, .NGLVH');
+        const title = titleElement ? titleElement.textContent.trim() : '';
+
+        // Improved regex that captures text between 'location' and 'organizer'
+        const locationRegex = /location (.*?) organizer/; 
+        const locationMatch = ariaLabel.match(locationRegex);
+        const location = locationMatch ? locationMatch[1].trim() : '';
+
+        const timeRegex = /\d{1,2}:\d{2} (AM|PM) to \d{1,2}:\d{2} (AM|PM)/;
+        const timeMatch = ariaLabel.match(timeRegex);
+        const time = timeMatch ? timeMatch[0] : '';
+
+        appointments.push({ title, location, time });
+    });
+
+    console.log(appointments);
+    return appointments;
+}
+
+extractAppointments();

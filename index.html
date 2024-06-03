@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Keikka Kartta 1.0</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKkYTrHGIa0F-Kx-ytvaRC479qMlFwBY0&libraries=places&callback=initMap" async defer></script>
+    <script src="script.js" defer></script>
+    <link rel="icon" type="image/png" sizes="32x32" href="./icon.png">
+
+</head>
+<body>
+    <div class="top-bar">
+        <div class="stats-header">
+            <h3>Keikka: <span id="location-count">0</span></h3>
+            <div>
+                <label for="staff-count">Staff Available:</label>
+                <input type="number" id="staff-count" value="8" min="1" style="width: 50px;"> <!-- Default value set to 8 -->
+            </div>
+            <div>
+                <label>Ota keikkoja: <span id="appointments-per-staff">0</span></label>
+            </div>
+            <div class="dark-mode">
+                <button class="dark-mode-button">Dark Mode</button>
+            </div>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="sidebar">
+            <div class="insert-wrapper">
+                <h3>Location List</h3>
+                <textarea id="appointments-input" placeholder="Enter appointments JSON"></textarea>
+                <button onclick="processAppointmentsJson(document.getElementById('appointments-input').value)">Process Appointments</button>
+                
+                <textarea id="bulk-remove-input" placeholder="Paste team messages here"></textarea>
+                <button onclick="bulkRemoveMarkers()">Mark Reserved Locations</button>
+
+            </div>
+            <ul id="locations-list"></ul>
+            <button onclick="copySelectedLocations()">Copy Selected Locations</button>
+            <button id="startJourney" onclick="startJourney()">Start Journey</button>
+        </div>
+        <div id="map" style="height:100vh; width:100vh;"></div>
+        <div class="sidebar" id="right-sidebar">
+            <h3>Selected Locations</h3>
+            <ul id="selected-locations-list"></ul>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,126 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column; /* Change to column layout for vertical stacking */
+    /*background-color: #1c1c11; Dark background for the entire page */
+    background-image: url("https://wallpaperboat.com/wp-content/uploads/2020/04/dark-aesthetic-wallpaper-1920x1080-17.jpg");
+    font-family: "Quicksand", sans-serif;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.top-bar {
+  /*    background-color: #353535; /* Consistent with sidebar for uniformity */
+    color: white;
+    padding: 10px 20px; /* Sufficient padding for top bar */
+    display: flex;
+    align-items: center; /* Center items vertically */
+}
+
+.stats-header {
+    font-size: 1.2em; /* Slightly larger font size for visibility */
+}
+
+.main-content {
+    display: flex;
+    height: 100%;
+}
+
+.sidebar {
+    width: 300px;
+ /*     background-color: #353535; /* Darker shade for the sidebar */
+    padding: 20px;
+    overflow-y: auto; /* Keep as scrollable */
+    display: flex;
+    flex-direction: column;
+}
+
+#map {
+    flex-grow: 1; /* Allow the map to fill the remaining space */
+    height: 100%; /* Full height of its parent */
+}
+
+textarea, button, #locations-list li {
+    background-color: #1c1c11;
+    color: white;
+    border: none; /* Removing classic borders */
+    border-radius: 8px; /* Rounded corners for modern look */
+    margin-bottom: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+}
+
+textarea {
+    padding: 10px;
+    resize: vertical; /* Allow only vertical resizing */
+    outline: none; /* Remove default outline to use custom focus style */
+}
+
+textarea:focus, button:focus, #locations-list li:focus {
+    outline: 2px solid #4f4f4f; /* Custom focus outline */
+    outline-offset: -2px;
+}
+
+button {
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    font-weight: bold;
+    background-color: #292929; /* Darker background for button */
+}
+
+button:hover {
+    background-color: #4f4f4f; /* Slightly lighter background on hover */
+    transform: translateY(-2px); /* Subtle lift effect on hover */
+}
+
+#locations-list {
+    list-style-type: none;
+    padding: 0;
+    overflow-y: auto;
+}
+
+#locations-list li {
+    padding: 10px 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    display: flex;
+    justify-content: space-between; /* Align list content and button */
+    align-items: center;
+    background-image: url("https://wallpaper.dog/large/445126.jpg");
+    background-size: cover;
+}
+
+#locations-list li:hover {
+    opacity: 0.8;
+}
+
+h3 {
+    color: white;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 15px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #009c9c94;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #02535394;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #004b4b94;
+  }
